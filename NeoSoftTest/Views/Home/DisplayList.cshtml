@@ -1,0 +1,140 @@
+﻿@model IEnumerable<NeoSoftTest.Models.tblNeoData>
+
+@{
+    ViewBag.Title = "DisplayList";
+}
+
+<h2>DisplayList</h2>
+
+<button class="btn btn-default" style="margin-bottom:5px">
+    @Html.ActionLink("Create New", "Create")
+   </button>
+
+    @*<table id="myTable" class="table table-hover table-bordered">
+            <thead style="background-color:aliceblue">
+                <tr>
+                    <td>Email</td>
+                    <td>Country</td>
+                    <td>State</td>
+                    <td>City</td>
+                    <td>PanNumber</td>
+                    <td>Passport</td>
+                    <td>Image</td>
+                    <td>Gender</td>
+                    <td>IsActive</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
+                </tr>
+            </thead>
+         </table>
+
+        @section Scripts{
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#myTable').DataTable({
+
+                    "ajax": {
+                        "url": "/Home/DisplayList",
+                        "type": "GET",
+                        "datatype":"json"
+                    },
+                    "columns": [
+                        { "data": "Email" },
+                        { "data": "Country" },
+                        { "data": "State" },
+                        { "data": "City" },
+                        { "data": "PanNumber" },
+                        { "data": "Passport" },
+                        { "data": "Image" },
+                        { "data": "Gender" },
+                        { "data": "IsActive" }
+
+                    ]
+                });
+            });
+        </script>
+
+        }*@
+    <table class="table table-hover table-bordered">
+        <tr style="background-color:gray">
+
+            <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tblCountry.CountryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tblState.StateName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.tblCity.CityName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PanNumebr)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PassportNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfileImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailAddress)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.tblCountry.CountryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tblState.StateName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tblCity.CityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PanNumebr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PassportNumber)
+                </td>
+                <td>
+                    <img src="@Url.Content(item.ProfileImage)" alt="Not found" width="60" height="60" />
+                    @*@Html.DisplayFor(modelItem => item.ProfileImage)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+
+                <td>
+                    <button class="btn btn-default">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Row_Id })
+                    </button>
+                    <button class="btn btn-default">
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Row_Id })
+                    </button>
+                </td>
+            </tr>
+        }
+    </table>
+
+

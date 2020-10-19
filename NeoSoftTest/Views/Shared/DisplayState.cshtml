@@ -1,0 +1,14 @@
+﻿@model NeoSoftTest.Models.tblState
+
+
+
+<option value="">Select State</option>
+@if (ViewBag.StateList!=null)
+{
+    foreach (var item in ViewBag.StateList)
+    {
+        <option value="@item.Value">@item.Text</option>
+    }
+}
+
+

@@ -1,0 +1,63 @@
+﻿@model  NeoSoftTest.Models.ModelData
+   
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@if (ViewBag.CountryList !=null)
+{
+    @Html.DropDownListFor(m=>m.Cid, ViewBag.CountryList as SelectList,"Select Country",new { @class="form-control"})
+}
+@Html.DropDownListFor(m => m.Sid, new SelectList(""), "", new { @class = "form-control" })
+@Html.DropDownListFor(m => m.Ctid, new SelectList(""), "", new { @class = "form-control" })
+
+
+
+
+<script src="~/scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#Cid").change(function () {
+            var CountryId = $(this).val();
+            debugger
+
+            $.ajax({
+                type: "post",
+                url: "/Home/GetStateList?Cid="+CountryId,
+                contentType: "html",
+                success: function (response) {
+
+                    $("#Sid").empty();
+                    $("#Sid").append(response);
+
+                }
+
+
+            })
+
+        })
+
+        $("#Sid").change(function () {
+            var stateId = $(this).val();
+            debugger
+
+            $.ajax({
+                type: "post",
+                url: "/Home/GetCityList?Sid=" + stateId,
+                contentType: "html",
+                success: function (response) {
+
+                    $("#Ctid").empty();
+                    $("#Ctid").append(response);
+
+                }
+
+            })
+
+        })
+
+    });
+</script>
