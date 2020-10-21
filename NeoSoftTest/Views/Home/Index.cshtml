@@ -1,4 +1,4 @@
-﻿@model  NeoSoftTest.Models.ModelData
+﻿@model  NeoSoftTest.Models.tblNeoData
    
 @{
     ViewBag.Title = "Index";
@@ -8,10 +8,10 @@
 
 @if (ViewBag.CountryList !=null)
 {
-    @Html.DropDownListFor(m=>m.Cid, ViewBag.CountryList as SelectList,"Select Country",new { @class="form-control"})
+    @Html.DropDownListFor(model=>model.CountryId, ViewBag.CountryList as SelectList,"Select Country",new { @class="form-control"})
 }
-@Html.DropDownListFor(m => m.Sid, new SelectList(""), "", new { @class = "form-control" })
-@Html.DropDownListFor(m => m.Ctid, new SelectList(""), "", new { @class = "form-control" })
+@Html.DropDownListFor(model => model.StateId, new SelectList(""), "", new { @class = "form-control" })
+@Html.DropDownListFor(model => model.CityId, new SelectList(""), "", new { @class = "form-control" })
 
 
 
@@ -20,18 +20,18 @@
 <script>
     $(document).ready(function () {
 
-        $("#Cid").change(function () {
-            var CountryId = $(this).val();
+        $("#CountryId").change(function () {
+            var countryId = $(this).val();
             debugger
 
             $.ajax({
                 type: "post",
-                url: "/Home/GetStateList?Cid="+CountryId,
+                url: "/Home/GetStateList?CountryId=" + countryId,
                 contentType: "html",
                 success: function (response) {
 
-                    $("#Sid").empty();
-                    $("#Sid").append(response);
+                    $("#StateId").empty();
+                    $("#StateId").append(response);
 
                 }
 
@@ -40,18 +40,18 @@
 
         })
 
-        $("#Sid").change(function () {
+        $("#StateId").change(function () {
             var stateId = $(this).val();
             debugger
 
             $.ajax({
                 type: "post",
-                url: "/Home/GetCityList?Sid=" + stateId,
+                url: "/Home/GetCityList?StateId=" + stateId,
                 contentType: "html",
                 success: function (response) {
 
-                    $("#Ctid").empty();
-                    $("#Ctid").append(response);
+                    $("#CityId").empty();
+                    $("#CityId").append(response);
 
                 }
 

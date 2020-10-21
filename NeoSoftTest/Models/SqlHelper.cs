@@ -15,7 +15,7 @@ namespace NeoSoftTest.Models
             return db.fn_GetData().ToList();
         }
 
-        public void InssertData(tblNeoData detail)
+        public void InsertData(tblNeoData detail)
         {
 
             db.fn_NeoCreate(detail.EmailAddress, detail.CountryId, detail.StateId,

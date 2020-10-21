@@ -7,10 +7,10 @@ namespace NeoSoftTest.Models
 {
     public class ModelData
     {
-        public int Cid { get; set; }
-        public int Sid { get; set; }
-        public int Ctid { get; set; }
-
-
+        public int CountryId { get; set; }
+        public int StateId { get; set; }
+        public int CityId { get; set; }
+        
+        
     }
 }

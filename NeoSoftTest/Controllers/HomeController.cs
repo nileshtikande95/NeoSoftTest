@@ -1,8 +1,10 @@
 ﻿using NeoSoftTest.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,21 +14,18 @@ namespace NeoSoftTest.Controllers
     {
         NeoSoftDBEntities db = new NeoSoftDBEntities();
         // GET: Home
-
+        SqlHelper helper = new SqlHelper();
         public ActionResult Index()
         {
-            ViewBag.CountryList = new SelectList(GetCountryList(), "Row_Id", "CountryName");
-
+    
             return View();
         }
 
         public ActionResult DisplayList()
         {
-            
-            SqlHelper helper = new SqlHelper();
            var result= helper.GetList().ToList();
-            return View(result);
-          // return Json(new { data = result },JsonRequestBehavior.AllowGet);
+           // return View(result);
+           return Json(new { data = result },JsonRequestBehavior.AllowGet);
         }
 
         public List<tblCountry> GetCountryList()
@@ -55,10 +54,10 @@ namespace NeoSoftTest.Controllers
         public ActionResult Create()
         {
             ViewBag.CountryList = new SelectList(GetCountryList(), "Row_Id", "CountryName");
-
             return View();
         }
         [HttpPost]
+        [HandleError]
         public ActionResult Create(HttpPostedFileBase file,tblNeoData detail)
         {
             
@@ -70,31 +69,43 @@ namespace NeoSoftTest.Controllers
 
                     if (file.ContentLength <= 1000000)
                     {
-                        SqlHelper helper = new SqlHelper();
                     file.SaveAs(path);
              
-                    helper.InssertData(detail);
+                    helper.InsertData(detail);
 
-                }
+                    }
             }
              
             return View();
 
         }
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tblNeoData detail = db.tblNeoDatas.Find(id);
+            if (detail == null)
+            {
+                return HttpNotFound();
+            }
+            return View(detail);
+        }
 
-
- 
-
-
-
-
-
-
-
-
-
-
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(tblNeoData data)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(data).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("DisplayList");
+            }
+            return View(data);
+        }
 
     }
 }
